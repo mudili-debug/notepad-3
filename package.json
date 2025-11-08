@@ -1,0 +1,31 @@
+{
+  "name": "notionpad-monorepo",
+  "version": "1.0.0",
+  "description": "NotionPad - A Notion-style note-taking app built with MERN stack",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "pnpm --parallel dev",
+    "build": "pnpm --parallel build",
+    "lint": "pnpm --parallel lint",
+    "lint:fix": "pnpm --parallel lint:fix",
+    "typecheck": "pnpm --parallel typecheck",
+    "test": "pnpm --parallel test",
+    "clean": "pnpm --parallel clean"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.45.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^14.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.0.0"
+  },
+  "packageManager": "pnpm@8.6.0"
+}

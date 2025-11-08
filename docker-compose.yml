@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:7.0
+    container_name: notionpad-mongo
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - notionpad-network
+
+  server:
+    build:
+      context: ./apps/server
+      dockerfile: Dockerfile
+    container_name: notionpad-server
+    restart: unless-stopped
+    ports:
+      - '5000:5000'
+    environment:
+      - NODE_ENV=development
+      - MONGO_URI=mongodb://admin:password@mongo:27017/notionpad?authSource=admin
+    depends_on:
+      - mongo
+    networks:
+      - notionpad-network
+    volumes:
+      - ./apps/server:/app
+      - /app/node_modules
+
+  client:
+    build:
+      context: ./apps/client
+      dockerfile: Dockerfile
+    container_name: notionpad-client
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=development
+    networks:
+      - notionpad-network
+    volumes:
+      - ./apps/client:/app
+      - /app/node_modules
+
+volumes:
+  mongo_data:
+
+networks:
+  notionpad-network:
+    driver: bridge
